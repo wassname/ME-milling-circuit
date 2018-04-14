@@ -85,34 +85,35 @@ options = struct('model_params',struct(),'initial_state',struct(),...
 options.model_params.alpha_f = 0.055; %Fraction fines in feed ore
 options.model_params.alpha_r = 0.465; %Fraction rocks in feed ore
 options.model_params.alpha_P = 1; %Fractional power reduction per fractional reduction from mill speed % no variable mill speed
-options.model_params.alpha_speed = 0.712; %Fraction of critical mill speed (in data) 74%
+options.model_params.alpha_speed = 0.74; %Fraction of critical mill speed % mjc this is 74% in MK Equipment Specs_24 July 2017.xlsm
 options.model_params.alpha_phif = 0.01; %Fractional change in kW/fines produced per change in fractional filling of mill
-options.model_params.delta_Ps = 0.5; %Power-change parameter for fraction solids in the mill
-options.model_params.delta_Pv = 0.5; %Power-change parameter for volume of mill filled
-options.model_params.DB = 7.85; %Density of steel balls %t/m^3 % 8kg/ball 125 mm
-options.model_params.DS = 3.2; %Density of feed ore %t/m^3 ~2.5 specific gravity
-options.model_params.eps_sv = 0.6; %Maximum fraction solids in slurry at no flow (vol) (start with 0.3, this is prob if you leave it for a while wat frac is solid)
-options.model_params.phi_b = 90.0; %Steel abrasion factor %kWh/t (can backcalculate)
-options.model_params.phi_f = 27; %Power needed per tonne of fines produced %kWh/t (can calculate, 27?)
-options.model_params.phi_r = 6.03; %Rock abrasion factor %kWh/t ?
-options.model_params.rhe_Pmax = 0.57; %Rheology factor at max mill power draw ? (medium scale)
-options.model_params.P_max = 1662; %Maximum mill motor power draw %kW (work out from data)
-options.model_params.v_mill = 59.12; %Mill volume %m^3 (work out from mill dimensions)
-options.model_params.v_Pmax = 0.34; %Fraction of mill volume filled for maximum power draw
+options.model_params.delta_Ps = 0.5; %Power-change parameter for fraction solids in the mill %mjc ?
+options.model_params.delta_Pv = 0.5; %Power-change parameter for volume of mill filled %mjc ?
+options.model_params.DB = 5.1; %Density of steel balls %t/m^3 %mjc worked out from 8kg/ball with R=125 mm
+options.model_params.DS = 2.5; %Density of feed ore %t/m^3 %mjc (from ~2.5 specific gravity)
+options.model_params.eps_sv = 0.3; %Maximum fraction solids in slurry at no flow (vol) (we are guessing around 0.3, should calculat from slurry denisty) (frac of solids after its left to settle)
+options.model_params.phi_b = 90.0; %Steel abrasion factor %kWh/t %mjc (can backcalculate?)
+options.model_params.phi_f = 27; %Power needed per tonne of fines produced %kWh/t (around 27)
+options.model_params.phi_r = 6.03; %Rock abrasion factor %kWh/t %mjc ?
+options.model_params.rhe_Pmax = 0.57; %Rheology factor at max mill power draw %mjc? (medium scale)
+options.model_params.P_max = 2332.1; %Maximum mill motor power draw %kW %mjc (work out from data)
+options.model_params.v_mill = 260; %Mill volume %m^3 %mjc (work out from mill dimensions 8*6.5*5=260m2)
+options.model_params.v_Pmax = 0.34; %Fraction of mill volume filled for maximum power draw %mjc same
 options.model_params.V_V = 84.0; %Volumetric flow per "flowing volume" driving force %h^-1??
 options.model_params.chi_P = 0; %Cross-term for maximum power draw
 
 %Sump/hopper module
-options.model_params.SVOL = 5.99; %Sump volume %m^3 (work out dimensions) (max of 1000 cubes, maybe 20-30 more capacity (square tank))
+options.model_params.SVOL = 5.99; %Sump volume %m^3 %mjc I dont think this is right but they mentioned 1250 m3, in a square shape
 options.model_params.Asump = 1.1*3.2; %Sump crossectional area %m^2 (work out dimensions)
 
-%Hydrocyclone module % 2 x 838 mm have 355 mm Vortex and 140mm Spigot (bertha)
+%Hydrocyclone module %mjc 2 x 838 mm have 355 mm Vortex and 140mm Spigot (bertha)
 options.model_params.alpha_su = 0.87; %Related to fraction solids in underflow
 options.model_params.C1 = 0.6; %Constant
 options.model_params.C2 = 0.7; %Constant
 options.model_params.C3 = 4; %Constant
 options.model_params.C4 = 4; %Constant
 options.model_params.eps_c = 129; %Related to coarse split %m^3/h
+
 
 %INITIAL DATA TAKEN FROM SURVEY 3 (Le Roux et al., 2013)
 options.initial_state.MIW = 4.64; %Mill Inlet Water %m^3/hr (100-150 cubes) (convert to %)
@@ -134,6 +135,33 @@ options.initial_state.Xsws = 4.11; %Sump water %m^3
 options.initial_state.JT = (options.initial_state.Xmbs + options.initial_state.Xmrs ...
                             + options.initial_state.Xmss + options.initial_state.Xmws) ...
                             / options.model_params.v_mill; %Mill charge fraction
+
+%INITIAL DATA TAKEN FROM SURVEY 6 (Nickel Wests Mt Keith site., 2018)
+%% Input ranges for Nickel Wests Mt Keith site
+% MIW range of 400-550 m3/h
+% MFS range of 500-800 t/h
+% MFB 55kg/h to 88kg/h  (they use 0.11 kg of steel balls for every tonne in the conveyor (with 8kg balls))
+% SFW 500-1000 m3/h from (from variable MKO.3FI_312_10A.PV)
+% CFF 100-300 m3/h (from variable MKO.3FI_550_17.PV)
+options.initial_state.MIW = 4.64; %Mill Inlet Water %m^3/hr (100-150 cubes) (convert to %)
+options.initial_state.MFS = 65.2; %Mill Feed Solids %t/hr (700 tonnes/h)
+options.initial_state.MFB = 5.69; %Mill Feed Balls %t/hr (calculate from  8kg/ball 125 mm)
+options.initial_state.SFW = 140.5; %Sump Feed Water $m^3/hr % 1000 cubes/h
+options.initial_state.CFF = 374; %Cyclone Feed Flowrate %m^3/hr
+options.initial_state.PSE = 0.67; %Particle Size Estimate
+options.initial_state.Pmill = 1183; %Mill Powerdraw %kW
+options.initial_state.CFD = 1.6863; %Cyclone feed density %t/m^3
+options.initial_state.Xmbs = 8.51; %Mill balls %m^3
+options.initial_state.Xmfs = 1.09; %Mill fines %m^3
+options.initial_state.Xmrs = 1.82; %Mill rocks %m^3
+options.initial_state.Xmss = 4.90; %Mill solids %m^3
+options.initial_state.Xmws = 4.85; %Mill water %m^3
+options.initial_state.Xsfs = 0.42; %Sump fines %m^3
+options.initial_state.Xsss = 1.88; %Sump solids %m^3
+options.initial_state.Xsws = 4.11; %Sump water %m^3
+options.initial_state.JT = (options.initial_state.Xmbs + options.initial_state.Xmrs ...
+                        + options.initial_state.Xmss + options.initial_state.Xmws) ...
+                        / options.model_params.v_mill; %Mill charge fraction
 
 %CONTROL SYSTEM (PI SINGLE LOOPS from Wakefield et al., 2017)
 %Sump volume controller
