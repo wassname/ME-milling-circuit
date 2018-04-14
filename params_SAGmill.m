@@ -138,11 +138,16 @@ options.initial_state.JT = (options.initial_state.Xmbs + options.initial_state.X
 
 %INITIAL DATA TAKEN FROM SURVEY 6 (Nickel Wests Mt Keith site., 2018)
 %% Input ranges for Nickel Wests Mt Keith site
-% MIW range of 400-550 m3/h
-% MFS range of 500-800 t/h
+% MIW range of 400-550 m3/h MKO.3FIC311_24.PV (mill 1)
+% MFS range of 500-800 t/h MKO.3WIC221_02.PV (For mill 1)(checked with nickel west)
 % MFB 55kg/h to 88kg/h  (they use 0.11 kg of steel balls for every tonne in the conveyor (with 8kg balls))
-% SFW 500-1000 m3/h from (from variable MKO.3FI_312_10A.PV)
+% SFW 500-1000 m3/h from (from variable MKO.3FI_311_10A.PV)
 % CFF 100-300 m3/h (from variable MKO.3FI_550_17.PV)
+%% Ouput ranges
+% PSE: You can find this (p80) in daily dict, should be between 100 and 160
+% LOAD: not measured, aiming for 18%
+% SVOL: not measured
+% CFD: not measures, should be ~65%
 options.initial_state.MIW = 4.64; %Mill Inlet Water %m^3/hr (100-150 cubes) (convert to %)
 options.initial_state.MFS = 65.2; %Mill Feed Solids %t/hr (700 tonnes/h)
 options.initial_state.MFB = 5.69; %Mill Feed Balls %t/hr (calculate from  8kg/ball 125 mm)
