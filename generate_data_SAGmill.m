@@ -52,8 +52,8 @@
 faultsvec = {'pse sensor','liner wear','no fault'};
 fault = faultsvec(faultmode); % faultmode specified in main.m
 
-fault_time = 24*104; % default 90 days NOC, 14 days NOC test
-stop_time = 24*30+fault_time; % default 30 days fault data
+fault_time = 14*24; % default 90 days NOC, 14 days NOC test
+stop_time = 3*24+fault_time; % default 30 days fault data
 
 %% Run simulation
 clear options;

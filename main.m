@@ -39,20 +39,20 @@ close all; clear; clc;
 % 2 - load mill liner wear fault data
 % 3 - load fault-free data
 % 4 - run Simulink simulation of circuit
-loadmode = 1;
+loadmode = 4;
 
 % If loadmode == 4, user must also specify simulation modes:
 
 % 1 - simulate particle size estimate sensor error data
 % 2 - simulate mill liner wear fault data
 % 3 - run simulation with no faults
-faultmode = 1;
+faultmode = 3;
 % User must also specify seed for random walks. This seed determines the
 % seeds for random number generators in Simulink. A given seed will always
 % generate the same (pseudo)random walks for the model, allowing the user
 % to reproduce simulations. The data used in the paper was generated with a
 % seed value of 1.
-RandomSeedNumber = 1;   % Seed for the random walks
+RandomSeedNumber = 3;   % Seed for the random walks
 
 switch loadmode
 	case 1
@@ -77,19 +77,22 @@ tout = tout/24; % convert units to [days]
 
 % Indices for Samples before fault starts:
 % 90 days x 24 hours per day x 60 minutes per hour x 2 samples per minute
+nod_test_days = fault_time/24
+test_days = 1
 tNOCStart = 1;
-tNOCEnd = tNOCStart + 90*24*60*2;
+tNOCEnd = tNOCStart + (nod_test_days-test_days)*24*60*2;
 tTestStart = tNOCEnd + 1;
-tTestEnd = tNOCEnd + 14*24*60*2;
+tTestEnd = tNOCEnd + test_days*24*60*2;
 
 % Define fault start time
+fault_days = (stop_time-fault_time)/24
 tFaultStart = tTestEnd+1;
-tFaultEnd = tTestEnd+30*24*60*2;
+tFaultEnd = tTestEnd+fault_days*24*60*2;
 
 %% Plot input and output parameters
 % Resample data from Deltat = 0.0083 h/(24 h/day) to Deltat = 1 h
 ind = find(rem(tout*24,1)==0);
-indf = find(tout(ind)==104);
+indf = find(tout(ind)==nod_test_days);
 run 'displaytimeplots.m';
 
 %% Compile data into matrix, specify variable names
