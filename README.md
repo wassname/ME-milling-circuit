@@ -8,7 +8,7 @@ Required Matlab 2017b with simulink to run.
 
 Example output:
 
-![simulation output](docs\img\outputs.png)
+![simulation output](docs/img/outputs.png)
 
 --- Original readme ---
 
