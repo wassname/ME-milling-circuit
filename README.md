@@ -1,12 +1,16 @@
 Fork of ME-milling-circuit for Unerathed Perth 2018 hackathon.
 
-Parameters are changed to match Nickel Wests installation.
+By the SmoothGrinder team (Camilo Pestana, Michael Clark, Noor Khemji, Pooya Darvehei, Brig Mecham, Kelsey Way)
 
-Needs matlab 2017b with simulink.
+Parameters were changed to match Nickel Wests installation.
 
---- Orignal readme ---
+Required Matlab 2017b with simulink to run.
 
+Example output:
 
+![simulation output](docs\img\outputs.png)
+
+--- Original readme ---
 
 # ME-milling-circuit
 Milling circuit simulation model and simulation data
